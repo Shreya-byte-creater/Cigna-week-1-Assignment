@@ -1,0 +1,62 @@
+Books with excatly one copy
+
+SELECT * FROM Books WHERE Available_copies=1;
+
+Authors whose name start with a letter J
+
+SELECT * FROM Authors WHERE Author_name like 'J%';
+
+List members with no address recorded 
+
+SELECT * FROM Members WHERE Adddress is Null;
+
+List borrowings on that specific date
+
+SELECT * FROM Borrowings WHERE Borrow_date=To_DATE('2025-10','YYYY-MM');
+
+List books with publication year 2000
+
+SELECT * FROM Books WHERE Publication_year > 2000;
+
+List borrowings with no fines
+
+SELECT * FROM Borrowings WHERE Fines =0;
+
+List members sorted membership date
+
+SELECT * FROM Members ORDER BY Membership_data desc;
+
+Count the total number of authors
+
+SELECT count (Author_id) FROM Authors ;
+
+List books with titles contaning words 
+
+SELECT * FROM Books where Book_titles like '%Ptter%';
+
+List borrowing returned on a specific date
+
+SELECT * FROM Borrowings where return_date=To_DATE('2025-10','YYYY-MM')
+
+List members with specific area code in their phone number
+
+SELECT Phone_number FROM Members WHERE phone_number like '+91%'
+
+List books sorted alphabetically
+
+SELECT Book_name FROM Books ORDER BY Title;
+
+Sum the total available copies across all books
+
+SELECT sum(availabe_copies) as Sum FROM Books;
+
+List borrowing with a due date in a specific month
+
+SELECT Borrowing_date,Due_date FROM Borrowings WHERE To_Char(Due_Date,'YYYY-MM')=To_Date('2025-10','YYYY-MM');
+
+List authors with names long with more than 10 character
+
+SELECT * FROM Authors WHERE length(Author_name)>10;
+
+
+
