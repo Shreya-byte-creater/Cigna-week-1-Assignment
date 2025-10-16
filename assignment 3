@@ -1,4 +1,4 @@
-Sah, Anushka 15-10-2025 16:18 • CREATE TABLE dept (
+ CREATE TABLE dept (
 deptno NUMBER PRIMARY KEY,
 dname VARCHAR2(14),
 loc VARCHAR2(13)
