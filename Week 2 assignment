@@ -1,0 +1,51 @@
+ <head>
+        <title>Secure payment</title>
+    </head>
+    <body>
+        <fieldset>
+            <legend>This is a secyre 128-bit SSl Encrypted payment.You'r safe</legend>
+       
+        <form>
+            <label>
+                <input type="radio" name="payment>Credit card"(Visa,Mastercard)
+            </label>
+            <image src=""></image>
+            <image src=""></image>
+            <label>
+                <input type="radio" name="payment">PayPal
+            </label>
+            <image scr=""></image>
+            <label>Card number<br>
+                <input type="text" name="card number">The 16 digits on front of your card
+
+            </label>
+            <label>Expiration date<br>
+            <select name="month">
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+                <option>04</option>
+
+            </select>
+            <select name="year">
+                <option>2020</option>
+                <option>2021</option> 
+                <option>2022</option>
+                <option>2023</option>        
+
+            </select>
+            <label>CVV2<br>
+                <input type="text" name="CVV">The last 3 digits displayed on back of your Card
+
+            </label>
+            <label>Full Name on a Card<br>
+                <input type="text" name="Full name">
+
+            </label>
+            <p>You will be charged 29 on every month</p>
+        
+                <button type="submit" >Submit transcation</button>
+        </form>
+         </fieldset>
+    </body>
+</html>
