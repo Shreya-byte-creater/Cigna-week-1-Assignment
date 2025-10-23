@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Product Total Calculator</title>
+</head>
+<body>
+  <div class="card" role="main">
+    <h2>Product Total Calculator</h2>
+
+    <label for="prodName">Product name</label>
+    <input id="prodName" type="text" placeholder="e.g. T-Shirt">
+
+    <label for="price">Price (per unit)</label>
+    <input id="price" type="number" min="0" step="0.01" placeholder="e.g. 29.99">
+
+    <label for="qty">Quantity</label>
+    <input id="qty" type="number" min="1" step="1" placeholder="e.g. 12">
+
+    <button id="calcBtn">Calculate Total</button>
+
+    <div id="result" class="result" aria-live="polite" hidden></div>
+  </div>
+
+  <script>
+    const prodNameEl = document.getElementById('prodName');
+    const priceEl = document.getElementById('price');
+    const qtyEl = document.getElementById('qty');
+    const btn = document.getElementById('calcBtn');
+    const resultEl = document.getElementById('result');
+
+    function getDiscountPercent(qty){
+      if(qty > 30) return 20;
+      if(qty > 20) return 15;
+      if(qty > 10) return 10;
+      return 0;
+    }
+
+    btn.addEventListener('click', () => {
+      const name = prodNameEl.value.trim() || 'Unnamed product';
+      const price = parseFloat(priceEl.value);
+      const qty = parseInt(qtyEl.value, 10);
+
+      if (!Number.isFinite(price) || price <= 0) {
+        alert('Enter a valid price greater than 0.');
+        priceEl.focus();
+        return;
+      }
+      if (!Number.isFinite(qty) || qty <= 0) {
+        alert('Enter a valid quantity (positive integer).');
+        qtyEl.focus();
+        return;
+      }
+
+      const confirmed = confirm(`Calculate total for "${name}"\nPrice: $${price.toFixed(2)}\nQuantity: ${qty}\nProceed?`);
+      if (!confirmed) {
+        resultEl.hidden = true;
+        return;
+      }
+
+      const discountPct = getDiscountPercent(qty);
+      const subtotal = price * qty;
+      const discountAmount = +(subtotal * discountPct / 100).toFixed(2);
+      const total = +(subtotal - discountAmount).toFixed(2);
+
+      resultEl.hidden = false;
+      resultEl.innerHTML = `
+        <strong>Product:</strong> ${escapeHtml(name)}<br>
+        <strong>Unit price:</strong> $${price.toFixed(2)} &nbsp; <strong>Qty:</strong> ${qty}<br>
+        <strong>Subtotal:</strong> $${subtotal.toFixed(2)}<br>
+        <strong>Discount:</strong> ${discountPct}% (<em>-$${discountAmount.toFixed(2)}</em>)<br>
+        <strong>Total:</strong> $${total.toFixed(2)}
+      `;
+    });
+  </script>
+</body>
+</html>
