@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample</title>
+</head>
+<body>
+    <h1>Login page</h1>
+
+    <label for="login">LoginId</label>
+    <input type="text" id="login" name="login">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password">
+
+    <button id="submitbtn" onclick="login()">Submit</button>
+
+    <p id="message"></p>
+
+    <script>
+        let attempts = 3;
+
+        function login() {
+            const username = document.getElementById("login").value.trim();
+            const password = document.getElementById("password").value;
+            const correctUsername = "admin";
+            const correctPassword = "1234";
+
+            const messageEl = document.getElementById("message");
+            const submitBtn = document.getElementById("submitbtn");
+
+            if (username === correctUsername && password === correctPassword) {
+                messageEl.innerText = `Welcome: ${username}`;
+                submitBtn.disabled = true;
+                return;
+            }
+
+            attempts--;
+            alert("Incorrect username or password. Attempts left: " + attempts);
+
+            if (attempts === 0) {
+                alert("You have entered wrong password 3 times. Login blocked");
+                submitBtn.disabled = true;
+                messageEl.innerText = "Login Disabled";
+            }
+        }
+    </script>
+</body>
+</html>
