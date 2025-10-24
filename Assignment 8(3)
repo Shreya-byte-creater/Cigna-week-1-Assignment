@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Students — Table with Course Filter (Eg-7)</title>
+</head>
+<body>
+  <h1>Students (Eg-7) — Table View</h1>
+
+  <div class="controls" aria-hidden="false">
+    <label for="filterCourse">Filter by course:</label>
+    <input id="filterCourse" type="text" placeholder="e.g. JavaScript" />
+    <button id="applyFilter">Apply Filter</button>
+    <button id="clearFilter" class="secondary">Clear Filter</button>
+    <button id="showAll" class="secondary">Show All</button>
+  </div>
+
+  <div class="note">Use the filter input and click "Apply Filter" to show students enrolled in a course (case-insensitive, substring match).</div>
+
+  <table id="studentsTable" aria-live="polite">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Course</th>
+        <th>Roll</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- rows will be rendered here by JavaScript -->
+    </tbody>
+  </table>
+
+  <script>
+    // Example students array (array of objects). This matches Eg-7 style with a 'course' field.
+    const students = [
+      { name: 'Alice Johnson', age: 20, course: 'JavaScript', roll: 101 },
+      { name: 'Bob Martin',     age: 19, course: 'HTML & CSS', roll: 102 },
+      { name: 'Clara Lee',      age: 21, course: 'React', roll: 103 },
+      { name: 'David Park',     age: 22, course: 'Node.js', roll: 104 },
+      { name: 'Eve Kim',        age: 20, course: 'JavaScript', roll: 105 }
+    ];
+
+    const tbody = document.querySelector('#studentsTable tbody');
+    const filterInput = document.getElementById('filterCourse');
+    const applyBtn = document.getElementById('applyFilter');
+    const clearBtn = document.getElementById('clearFilter');
+    const showAllBtn = document.getElementById('showAll');
+
+    // Simple helper to escape HTML in strings (safe table rendering)
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function render(list) {
+      tbody.innerHTML = '';
+      if (!Array.isArray(list) || list.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="5" style="text-align:center;color:#6b7280">No students to display</td>';
+        tbody.appendChild(tr);
+        return;
+      }
+      list.forEach((s, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${escapeHtml(s.name)}</td>
+          <td>${escapeHtml(s.age)}</td>
+          <td>${escapeHtml(s.course)}</td>
+          <td>${escapeHtml(s.roll)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterByCourse(query) {
+      const q = String(query || '').trim().toLowerCase();
+      if (q === '') return students.slice(); // return copy of full list
+      return students.filter(s => String(s.course || '').toLowerCase().includes(q));
+    }
+
+    applyBtn.addEventListener('click', () => {
+      const q = filterInput.value;
+      const filtered = filterByCourse(q);
+      render(filtered);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      filterInput.value = '';
+      render(students);
+    });
+
+    showAllBtn.addEventListener('click', () => {
+      filterInput.value = '';
+      render(students);
+    });
+
+    
+    filterInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') applyBtn.click();
+    });
+
+    render(students);
+  </script>
+</body>
+</html>
