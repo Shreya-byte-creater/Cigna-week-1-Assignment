@@ -1,0 +1,67 @@
+// ...existing code...
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Course Manager</title>
+</head>
+<body>
+  <label for="course">Course name</label>
+  <input type="text" id="course" placeholder="Enter the course name">
+
+  <button onclick="ShowCourseName()">ShowCourseName</button>
+  <button onclick="AddCourse()">AddCourse</button>
+  <button onclick="RemoveCourse()">RemoveCourse</button>
+
+  <p id="output"></p>
+
+  <script>
+    let courses = ['HTML', 'CSS', 'JavaScript', 'React', 'Nodejs'];
+
+    function ShowCourseName() {
+      document.getElementById('output').textContent =
+        courses.length ? courses.join(', ') : 'No courses available';
+    }
+
+    function AddCourse() {
+      const newCourse = document.getElementById('course').value.trim();
+      if (newCourse === '') {
+        alert('Please enter the course name');
+        return;
+      }
+      // case-insensitive duplicate check
+      const exists = courses.some(c => c.toLowerCase() === newCourse.toLowerCase());
+      if (exists) {
+        alert('Course already exists');
+      } else {
+        courses.push(newCourse);
+        alert('Course added to list');
+        ShowCourseName();
+      }
+      document.getElementById('course').value = '';
+    }
+
+    function RemoveCourse() {
+      const course = document.getElementById('course').value.trim();
+      if (course === '') {
+        alert('Please enter the course name to remove');
+        return;
+      }
+      const index = courses.findIndex(c => c.toLowerCase() === course.toLowerCase());
+      if (index === -1) {
+        alert('Course does not exist');
+      } else {
+        courses.splice(index, 1);
+        alert('Course removed successfully');
+        ShowCourseName();
+      }
+      document.getElementById('course').value = '';
+    }
+
+    // initial display
+    ShowCourseName();
+  </script>
+</body>
+</html>
+// ...existing code...
