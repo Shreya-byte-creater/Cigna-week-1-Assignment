@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Course Manager</title>
+  <style>
+    body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; padding: 20px; color: #111; }
+    h1 { margin-top: 0; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; }
+    input[type="text"] { padding: 8px; width: 300px; max-width: 100%; margin-right: 8px; }
+    button { padding: 8px 10px; margin-right: 6px; cursor: pointer; }
+    #output { margin-top: 16px; }
+    ul { margin: 8px 0 0 20px; }
+    .msg { color: #065f46; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Course Manager</h1>
+
+  <label for="course">Course name</label>
+  <input id="course" type="text" placeholder="Enter the course name" />
+  <button id="showBtn">Show</button>
+  <button id="addBtn">Add</button>
+  <button id="removeBtn">Remove</button>
+
+  <div id="output" aria-live="polite">
+    <p class="msg" id="message">Courses will appear here.</p>
+    <ul id="courseList"></ul>
+  </div>
+
+  <script>
+    
+    const courses = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js'];
+
+    const courseInput = document.getElementById('course');
+    const messageEl = document.getElementById('message');
+    const listEl = document.getElementById('courseList');
+    const showBtn = document.getElementById('showBtn');
+    const addBtn = document.getElementById('addBtn');
+    const removeBtn = document.getElementById('removeBtn');
+
+    function showCourses() {
+      listEl.innerHTML = '';
+      if (courses.length === 0) {
+        messageEl.textContent = 'No courses available.';
+        return;
+      }
+      messageEl.textContent = `Showing ${courses.length} course(s):`;
+      courses.forEach((c) => {
+        const li = document.createElement('li');
+        li.textContent = c;
+        listEl.appendChild(li);
+      });
+    }
+
+    
+    function normalize(name) {
+      return String(name).trim();
+    }
+
+    
+    function addCourse() {
+      const name = normalize(courseInput.value);
+      if (!name) {
+        alert('Please enter the course name.');
+        return;
+      }
+      const exists = courses.some(c => c.toLowerCase() === name.toLowerCase());
+      if (exists) {
+        alert(`"${name}" already exists.`);
+        return;
+      }
+      courses.push(name);
+      courseInput.value = '';
+      showCourses();
+      messageEl.textContent = `"${name}" added.`;
+    }
+
+    
+    function removeCourse() {
+      const name = normalize(courseInput.value);
+      if (!name) {
+        alert('Please enter the course name to remove.');
+        return;
+      }
+      const idx = courses.findIndex(c => c.toLowerCase() === name.toLowerCase());
+      if (idx === -1) {
+        alert(`"${name}" not found.`);
+        return;
+      }
+      courses.splice(idx, 1);
+      courseInput.value = '';
+      showCourses();
+      messageEl.textContent = `"${name}" removed.`;
+    }
+
+   
+    showBtn.addEventListener('click', showCourses);
+    addBtn.addEventListener('click', addCourse);
+    removeBtn.addEventListener('click', removeCourse);
+    showCourses();
+
+    
+    courseInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') addCourse();
+    });
+  </script>
+</body>
+</html>
