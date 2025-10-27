@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Delegation Example</title>
+  <style>
+    a.delete { color: red; margin-left: 10px; text-decoration: none; cursor: pointer; }
+    a.delete:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <h3>Adding Events Dynamically in JavaScript</h3>
+  <hr/>
+
+  <fieldset>
+    <legend>Tasks in my Hand</legend>
+    <ul id="list1" style="border:2px solid blue; padding : 30px;">
+      <li>Send E-mail <a href="#" class="delete">Delete</a></li>
+      <li>Do Shopping <a href="#" class="delete">Delete</a></li>
+    </ul>
+  </fieldset>
+
+  <br/>
+  <input id="t1" placeholder="New Task Info..." type="text" />
+  <button id="addButton">Add Task</button>
+
+  <script>
+    const listObj = document.getElementById("list1");
+    const btnObj = document.getElementById("addButton");
+
+    
+    listObj.addEventListener("click", function(event) {
+      
+      if (event.target.matches("a.delete")) {
+        event.preventDefault();
+        const li = event.target.closest("li");
+        if (li) li.remove();
+        return;
+      }
+
+      
+      if (event.target.tagName === "LI") {
+        const li = event.target;
+        li.style.textDecoration = (li.style.textDecoration === "line-through") ? "none" : "line-through";
+      }
+    });
+
+    btnObj.addEventListener("click", function () {
+      const textObj = document.getElementById("t1");
+      const text = textObj.value.trim();
+      if (!text) return;
+
+      const listItemObj = document.createElement("li");
+      listItemObj.textContent = text + " ";
+
+      const delLink = document.createElement("a");
+      delLink.href = "#";
+      delLink.className = "delete";
+      delLink.textContent = "Delete";
+
+      listItemObj.appendChild(delLink);
+      listObj.appendChild(listItemObj);
+
+      textObj.value = "";
+    });
+  </script>
+</body>
+</html>
