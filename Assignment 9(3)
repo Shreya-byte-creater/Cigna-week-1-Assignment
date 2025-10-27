@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add Product Demo</title>
+  <style>
+    body{font-family:Segoe UI,Arial;margin:20px;color:#111}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+    .controls input{padding:6px;border:1px solid #ccc;border-radius:4px}
+    .controls label{font-size:90%}
+    #products{display:flex;flex-wrap:wrap;gap:12px}
+    .product{width:200px;border:1px solid #e5e7eb;border-radius:6px;padding:8px;background:#fff}
+    .product img{width:100%;height:120px;object-fit:cover;border-radius:4px}
+    .prod-name{display:block;font-weight:700;margin-top:6px}
+    .prod-desc{margin:6px 0 0;color:#444;font-size:0.95rem}
+    button{padding:8px 10px;border:0;background:#2563eb;color:#fff;border-radius:6px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <h1>Add Products</h1>
+
+  <div class="controls" aria-label="Product inputs">
+    <label>
+      Image URL
+      <input id="imgUrl" type="text" placeholder="https://example.com/img.jpg" size="30">
+    </label>
+
+    <label>
+      Name
+      <input id="prodName" type="text" placeholder="Product name" size="20">
+    </label>
+
+    <label>
+      Description
+      <input id="prodDesc" type="text" placeholder="Short description" size="30">
+    </label>
+
+    <button id="addBtn">Add Product</button>
+  </div>
+
+  <!-- section to hold all products (per requirement a) -->
+  <section id="products" aria-live="polite"></section>
+
+  <script>
+    // get references
+    const productsSection = document.getElementById('products');
+    const imgInput = document.getElementById('imgUrl');
+    const nameInput = document.getElementById('prodName');
+    const descInput = document.getElementById('prodDesc');
+    const addBtn = document.getElementById('addBtn');
+
+    // helper: create element with optional class and text
+    function createEl(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+
+    // Add product handler — creates required tags dynamically and appends to section
+    addBtn.addEventListener('click', () => {
+      const url = imgInput.value.trim();
+      const name = nameInput.value.trim();
+      const desc = descInput.value.trim();
+
+      if (!name) {
+        alert('Please enter product name.');
+        nameInput.focus();
+        return;
+      }
+
+      
+      const productDiv = document.createElement('div');
+      productDiv.className = 'product';
+
+      
+      const img = document.createElement('img');
+      
+      img.src = url || 'https://via.placeholder.com/400x300?text=Product';
+      img.alt = name;
+
+      // create span for product name
+      const span = createEl('span', 'prod-name', name);
+
+      // create p for description
+      const p = createEl('p', 'prod-desc', desc || 'No description');
+
+      
+      productDiv.appendChild(img);
+      productDiv.appendChild(span);
+      productDiv.appendChild(p);
+
+      
+      productsSection.appendChild(productDiv);
+
+      
+      imgInput.value = '';
+      nameInput.value = '';
+      descInput.value = '';
+      nameInput.focus();
+    });
+  </script>
+</body>
+</html>
